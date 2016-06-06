@@ -74,3 +74,7 @@ class jcc:
 
 driver = jcc(sys.argv)
 driver.print_fields()
+if driver.compfiles[0].endswith('c'):
+    driver.compile_component()
+else:
+    driver.link_structures()
