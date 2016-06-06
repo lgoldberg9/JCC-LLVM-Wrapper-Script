@@ -1,35 +1,35 @@
 import sys
 
 class jcc:
+    """
+    
+    """
     
     def __init__(self, args):
-        flagged_args = list(filter(lambda x: x[:][0] == '-', args))
-        flagged_indexed_args = list(map(lambda y: [y, args.index(y)], flagged_args)) 
+        self.filename = ""
+        self.compfiles = []
         
-        prev_args = []
-        i = 0
         
-        while (flagged_indexed_args[i][0] != '-o' and i < len(flagged_indexed_args)):
-            prev_args.append(flagged_indexed_args[i])
-            i += 1     
-         
-        lower_index_of_files = flagged_indexed_args[i][1] # Index will be at 'filename'
         
-        i += 1 # Increment because we don't need '-o' anymore and want the 'filename'
+    def setup_args(self):
+        enumed_args = list(map(lambda x: [x, args.index(x)], args))
+        flagged_args = list(filter(lambda x: x[:][0][0] == '-', enumed_args))
         
-        if lower_index_of_files == len(flagged_indexed_args): # If there are no flags after '-o'
-            upper_index_of_files = len(args)
-        else: 
-            upper_index_of_files = flagged_indexed_args[i][1] # Flags after '-o'
+        while (flagged_args[0][0] != '-o'):
+            flagged_args.pop(0)
         
-        self.filename = args[i] # Since we've incremented, 
-        self.compilation_files = []
+        lower_index_bound = flagged_args.pop(0)[1] + 1 # Lower_index_bound represents the filename, not '-o'
         
-        for j in range(lower_index_of_files, upper_index_of_files): # Start at +1 since we do not need '-o'
-            self.compilation_files.append(args[j])
+        if flagged_args == []: # Check if there are any flags after '-o'.
+            upper_index_bound = len(args) # If there are no flags after '-o', upper bound is end of command line.
+        else:
+            upper_index_bound = flagged_args.pop(0)[1] # Otherwise, upper bound is first flag after c files.
         
-        print self.filename, self.compilation_files
-       
+        self.filename = args[lower_index_bound]
+        
+        # Gather all args between filename and the next flag (if there is a flag).
+        self.compfiles = list(filter(lambda x: lower_index_bound < x[:][1] and x[:][1] < upper_index_bound, enumed_args))
+        self.compfiles = list(map(lambda x: x[0], self.compfiles))   
         
     def compile_component(self):
         pass
