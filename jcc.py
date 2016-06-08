@@ -100,14 +100,15 @@ class jcc:
         cmd += self.arg('I', self.args.I)
         cmd += self.arg('f', self.args.f)
         cmd += self.arg('D', self.args.D)
-
+        cmd += self.arg('W', self.args.W)
+        
         cmd += ' ' + input_c
         #cmd += self.arg('l', self.args.l)
         #cmd += self.arg('L', self.args.L)
 
         if self.args.v:
             print cmd
-        #os.system(cmd)
+        os.system(cmd)
 
         return obj_file.replace(' -o ', '')
         
@@ -129,10 +130,11 @@ class jcc:
 
         if self.args.v:
             print cmd
-        #os.system(cmd)
+        os.system(cmd)
         return self.args.o + '.bc'
         
 def main():
+    print tempfile.gettempdir()
     driver = jcc()
     driver.args.v = True
     
